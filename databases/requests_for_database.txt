@@ -1,0 +1,6 @@
++ items: thêm collumn cho images
+
+
+- Gộp users & customers lại với nhau:
++ users: thêm trạng thái account (suspended/normal), thêm password, thêm user_type (admin/customer)
+
