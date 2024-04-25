@@ -1,2 +1,2 @@
 # BTTv-Fried-Chicken
-just for database for BTTv Fried Chicken website.
+just a database for BTTv Fried Chicken website.
