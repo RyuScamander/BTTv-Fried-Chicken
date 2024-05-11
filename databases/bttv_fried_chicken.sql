@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `bttv_fried_chicken` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `bttv_fried_chicken`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: bttv_fried_chicken
@@ -14,6 +16,37 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `feedback` (
+  `feedback_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `order_id` int NOT NULL,
+  `rating` enum('Negative','Neutral','Positive') COLLATE utf8mb4_general_ci NOT NULL,
+  `review` text COLLATE utf8mb4_general_ci,
+  `feedback_date` datetime NOT NULL,
+  PRIMARY KEY (`feedback_id`),
+  KEY `user_id` (`user_id`),
+  KEY `order_id` (`order_id`),
+  CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feedback`
+--
+
+LOCK TABLES `feedback` WRITE;
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `inventory`
@@ -161,14 +194,14 @@ DROP TABLE IF EXISTS `orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `order_id` int NOT NULL AUTO_INCREMENT,
-  `customer_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `order_date` datetime NOT NULL,
   `order_total` decimal(10,2) NOT NULL,
-  `payment_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `order_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `payment_method` enum('by card','by cash') COLLATE utf8mb4_general_ci NOT NULL,
+  `order_status` enum('Preparing','Delivering','Delivered') COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`order_id`),
-  KEY `customer_id` (`customer_id`),
-  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `users` (`customer_id`)
+  KEY `customer_id` (`user_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -193,11 +226,9 @@ CREATE TABLE `sales_revenue` (
   `revenue_date` date NOT NULL,
   `revenue_amount` decimal(10,2) NOT NULL,
   `year` int NOT NULL,
-  `quarter` int NOT NULL,
-  `week` int NOT NULL,
+  `quarter` enum('1','2','3','4') COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`revenue_id`),
-  KEY `year` (`year`,`quarter`),
-  KEY `year_2` (`year`,`week`)
+  KEY `year_quarter` (`year`,`quarter`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -218,7 +249,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `customer_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -227,7 +258,7 @@ CREATE TABLE `users` (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `user_type` enum('admin','client') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `status` enum('suspended','normal') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`customer_id`),
+  PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -250,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-25 16:26:33
+-- Dump completed on 2024-05-07 21:09:05

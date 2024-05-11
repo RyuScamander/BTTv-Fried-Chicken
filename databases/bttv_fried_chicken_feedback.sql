@@ -16,30 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sales_revenue`
+-- Table structure for table `feedback`
 --
 
-DROP TABLE IF EXISTS `sales_revenue`;
+DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sales_revenue` (
-  `revenue_id` int NOT NULL AUTO_INCREMENT,
-  `revenue_date` date NOT NULL,
-  `revenue_amount` decimal(10,2) NOT NULL,
-  `year` int NOT NULL,
-  `quarter` enum('1','2','3','4') COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`revenue_id`),
-  KEY `year_quarter` (`year`,`quarter`)
+CREATE TABLE `feedback` (
+  `feedback_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `order_id` int NOT NULL,
+  `rating` enum('Negative','Neutral','Positive') COLLATE utf8mb4_general_ci NOT NULL,
+  `review` text COLLATE utf8mb4_general_ci,
+  `feedback_date` datetime NOT NULL,
+  PRIMARY KEY (`feedback_id`),
+  KEY `user_id` (`user_id`),
+  KEY `order_id` (`order_id`),
+  CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sales_revenue`
+-- Dumping data for table `feedback`
 --
 
-LOCK TABLES `sales_revenue` WRITE;
-/*!40000 ALTER TABLE `sales_revenue` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_revenue` ENABLE KEYS */;
+LOCK TABLES `feedback` WRITE;
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

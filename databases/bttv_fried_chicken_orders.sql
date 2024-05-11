@@ -24,14 +24,14 @@ DROP TABLE IF EXISTS `orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `order_id` int NOT NULL AUTO_INCREMENT,
-  `customer_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `order_date` datetime NOT NULL,
   `order_total` decimal(10,2) NOT NULL,
-  `payment_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `order_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `payment_method` enum('by card','by cash') COLLATE utf8mb4_general_ci NOT NULL,
+  `order_status` enum('Preparing','Delivering','Delivered') COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`order_id`),
-  KEY `customer_id` (`customer_id`),
-  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `users` (`customer_id`)
+  KEY `customer_id` (`user_id`),
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-25 16:25:30
+-- Dump completed on 2024-05-07 21:08:24
