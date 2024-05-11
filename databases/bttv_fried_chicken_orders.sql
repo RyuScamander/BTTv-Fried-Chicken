@@ -28,10 +28,10 @@ CREATE TABLE `orders` (
   `order_date` datetime NOT NULL,
   `order_total` decimal(10,2) NOT NULL,
   `payment_method` enum('by card','by cash') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `order_status` enum('Confirmed','Canceled','Delivered') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `order_address` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `order_district` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `order_city` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `order_status` enum('Confirmed','Canceled','Delivered') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `order_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `order_district` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `order_city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`order_id`),
   KEY `customer_id` (`user_id`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-11 10:17:53
+-- Dump completed on 2024-05-11 11:03:18
